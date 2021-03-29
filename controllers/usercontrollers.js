@@ -1,31 +1,65 @@
 const {response} = require('express')
+
+const bcryptjs = require('bcryptjs');
+
+const Usuario = require('../models/usuario');
+
 const users = {}
 
-users.usuariosGET = (req,res = response) => {
-    const {q, nombre, apikey} = req.query;
+users.usuariosGET = async(req,res = response) => {
+    const {limit = 5 , to = 2} = req.query
+
+    const rep = await Promise.all([
+        Usuario.countDocuments(),
+        Usuario.find()
+        .limit(Number(limit))
+        .skip(Number(to))
+    ])
     res.json({
         msg: 'get API',
-        q, nombre, apikey
+        rep
     })
 }
-users.usuariosPUT = (req,res = response) => {
+users.usuariosPUT = async(req,res = response) => {
     const {id} = req.params;
-    res.json({
-        msg: 'put API',
-        id
-    })
-}
-users.usuariosPOST = (req,res = response) => {
-    const {nombre, edad} = req.body;
 
+    // Resto almacena las demás propiedades que vienen en el req.body
+    
+    const {_id, password, google, email, ...resto} = req.body;
+
+    //TODO validar contra base de datos
+    if(password) {
+        //Encriptar contraseña nueva
+        const salt = bcryptjs.genSaltSync();
+        resto.password = bcryptjs.hashSync(password, salt)
+    }
+
+    const usuario = await Usuario.findByIdAndUpdate(id, resto)
+    res.json(usuario)
+}
+users.usuariosPOST = async (req,res = response) => {
+
+    const {name, google, email, password, rol} = req.body
+    const usuario = new Usuario({name, google, email,password, rol})
+
+    
+    //Encriptar contraseña
+    const salt = bcryptjs.genSaltSync();
+    usuario.password = bcryptjs.hashSync(password, salt)
+
+    await usuario.save()
+    console.log(usuario)
     res.json({
         msg: 'post API',
-        nombre, edad
+        usuario
     })
 }
-users.usuariosDELETE = (req,res = response) => {
+users.usuariosDELETE = async (req,res = response) => {
+    const {id} = req.params;
+    const user = await Usuario.findByIdAndUpdate(id, {estado: true})
     res.json({
-        msg: 'delete API'
+        msg: 'delete API',
+        user
     })
 }
 module.exports = users
