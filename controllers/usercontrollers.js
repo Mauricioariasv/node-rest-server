@@ -56,10 +56,10 @@ users.usuariosPOST = async (req,res = response) => {
 }
 users.usuariosDELETE = async (req,res = response) => {
     const {id} = req.params;
-    const user = await Usuario.findByIdAndUpdate(id, {estado: true})
-    res.json({
-        msg: 'delete API',
-        user
-    })
+
+    const usuarioAthenticated = req.usuario
+    const user = await Usuario.findByIdAndUpdate(id, {estado: false})
+    
+    res.json({msg: 'delete API', user})
 }
 module.exports = users
