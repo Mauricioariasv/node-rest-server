@@ -15,6 +15,7 @@ const { esRolValido, emailExiste, existeIDdeUsuario } = require('../helpers/db-v
 const {validarCampos, validarJWT, tieneRole} = require('../middlewares')
 
 const {vali} = require('../middlewares')
+
 router.get('/', usuariosGET);
 
 router.put('/:id',[
@@ -25,7 +26,7 @@ router.put('/:id',[
 ], usuariosPUT)
 
 router.post('/',[
-        check('name', 'El nombre es obligatorioaaa').notEmpty(),
+        check('name', 'El nombre es obligatorio').notEmpty(),
         check('password', 'La contraseña debe tener más de 6 letras').isLength({min: 6}),
         check('email', 'El correo no es válido').isEmail(),
         check('email').custom( emailExiste ),

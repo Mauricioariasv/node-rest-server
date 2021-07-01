@@ -39,4 +39,20 @@ const existeProducto = await Producto.findById( id )
     }
 }
 
-module.exports = {esRolValido, emailExiste, existeIDdeUsuario, existeCategoria, existeProductoporID}
+const coleccionesPermitidas = (coleccion = '', colecciones = []) => {
+    const incluida = colecciones.includes( coleccion );
+    if(!incluida){
+        throw new Error(`La colección ${coleccion} no es permitida, ${colecciones}`)
+    }
+
+    return true
+}
+
+module.exports = {
+    esRolValido, 
+    emailExiste, 
+    existeIDdeUsuario, 
+    existeCategoria, 
+    existeProductoporID,
+    coleccionesPermitidas
+}

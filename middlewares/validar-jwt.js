@@ -11,6 +11,7 @@ const validarJWT = async (req = request, res = response, next) => {
             msg: 'no hay token en la petición'
         })
     }
+    
     try {
         //verificar si es un token y además saca el id del usuario del token
         const {uid} = jwt.verify(token, process.env.SECRETORPRIVATEKEY);

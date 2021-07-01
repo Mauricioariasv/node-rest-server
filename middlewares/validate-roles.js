@@ -12,7 +12,7 @@ const esAdminRole = (req, res = response, next) => {
 
     if(rol !== 'ADMIN_ROLE') {
         return res.status(401).json({
-            msg:  `${nombre} no eres admin pana`
+            msg:  `${nombre} no eres admin`
             })
         }
     next()

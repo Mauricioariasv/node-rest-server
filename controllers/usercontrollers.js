@@ -48,7 +48,7 @@ users.usuariosPOST = async (req,res = response) => {
     usuario.password = bcryptjs.hashSync(password, salt)
 
     await usuario.save()
-    console.log(usuario)
+
     res.json({
         msg: 'post API',
         usuario
@@ -57,7 +57,6 @@ users.usuariosPOST = async (req,res = response) => {
 users.usuariosDELETE = async (req,res = response) => {
     const {id} = req.params;
 
-    const usuarioAthenticated = req.usuario
     const user = await Usuario.findByIdAndUpdate(id, {estado: false})
     
     res.json({msg: 'delete API', user})

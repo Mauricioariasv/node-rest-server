@@ -1,7 +1,6 @@
 const { response } = require("express");
 
 const {Categoria, Usuario} = require('../models');
-const { findByIdAndDelete, findOneAndUpdate } = require("../models/usuario");
 const categoriasRoutes = {};
 
 categoriasRoutes.obtenerCategorias = async (req,res = response) => {

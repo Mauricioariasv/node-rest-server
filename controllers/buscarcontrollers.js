@@ -35,18 +35,14 @@ const buscarUsuarios = async( termino, res  ) => {
 }
 
 const buscarCategoria = async( termino, res  ) => {
-    //Ver si el termino es o no un MongoId, y si lo es, que busque el documento que tiene ese Id
     const esMongoID = ObjectId.isValid( termino )
     if(esMongoID){
         const categoria = await Categoria.findById(termino)
-        //Se coloca return para que no siga ejecutando nada de la función
         return res.json({
             results: (categoria) ? [ categoria ] : []
         })
     }
 
-    //es una expresión regular que lo que hace es que al bsquedas insensibles en la colección, busca
-    //lo que se pide y encuentra cosas similares, sin importar si tiene mayúsculas, minúsculas, etc
     const regex =  new RegExp(termino, 'i')
 
     const categorias = await Categoria.find({
@@ -54,24 +50,19 @@ const buscarCategoria = async( termino, res  ) => {
         $and: [{estado: true}]
     })
     res.json({
-        //Acá no lo manejamos como terminario como hicimos antes porque el fin regresa arreglos vacíos
         results: categorias
     })
 }
 
 const buscarProductos = async( termino, res  ) => {
-    //Ver si el termino es o no un MongoId, y si lo es, que busque el documento que tiene ese Id
     const esMongoID = ObjectId.isValid( termino )
     if(esMongoID){
         const producto = await Producto.findById(termino)
-        //Se coloca return para que no siga ejecutando nada de la función
         return res.json({
             results: (producto) ? [ producto ] : []
         })
     }
 
-    //es una expresión regular que lo que hace es que al bsquedas insensibles en la colección, busca
-    //lo que se pide y encuentra cosas similares, sin importar si tiene mayúsculas, minúsculas, etc
     const regex =  new RegExp(termino, 'i')
 
     const productos = await Producto.find({
@@ -79,7 +70,6 @@ const buscarProductos = async( termino, res  ) => {
         $and: [{estado: true}]
     })
     res.json({
-        //Acá no lo manejamos como terminario como hicimos antes porque el fin regresa arreglos vacíos
         results: productos
     })
 }
