@@ -5,9 +5,8 @@ const bcryptjs = require('bcryptjs')
 
 const {generarJWT} = require('../helpers/generar-jwt')
 
-const authController = {}
 
-authController.login = async(req, res = response) => {
+const login = async(req, res = response) => {
 
     const { email, password } = req.body
 
@@ -24,7 +23,7 @@ authController.login = async(req, res = response) => {
 
         if (!usuario.estado){
             return res.status(400).json({
-                msg: 'usuario o contraseña incorrectos - estado false'
+                msg: 'usuario o contraseña incorrectos'
             })
         }
 
@@ -32,7 +31,7 @@ authController.login = async(req, res = response) => {
         const validPassword = bcryptjs.compareSync(password, usuario.password)
         if(!validPassword){
             return res.status(400).json({
-                msg: 'usuario o contraseña incorrectos -password'
+                msg: 'usuario o contraseña incorrectos'
             })
         }
 
@@ -40,7 +39,7 @@ authController.login = async(req, res = response) => {
         const token = await generarJWT(usuario.id)
 
         res.json({
-            msg: 'todo bem',
+            msg: 'Todo bien',
             usuario, token
         })
     } catch (error) {
@@ -51,4 +50,6 @@ authController.login = async(req, res = response) => {
     }
 }
 
-module.exports = authController;
+module.exports = {
+    login
+}

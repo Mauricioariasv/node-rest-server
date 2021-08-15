@@ -8,8 +8,6 @@ const validarCampos = ( req, res, next ) => {
     next()
 }
 
-//Express validator usa throw new Error('a') para lanzar errores
-
 module.exports = {
     validarCampos
 }

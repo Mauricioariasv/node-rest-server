@@ -164,14 +164,11 @@ const actualizarImagenCloudinary = async (req,res) => {
     default:
       return res.status(500).json({msg: 'Se me olvidó validar esto'})
   }
-
-  //Si existe img de usuario o coleccion, el secure_url y tomamos
-  //el nombre de la foto para así poder borrarla de cloudinary
+  
     if(modelo.img){
       const nombreArr = modelo.img.split('/');
       const nombre = nombreArr[nombreArr.length - 1];
-      //Como el split genera un array, tomamos con la desestructuración de
-      //arrays, el primer elemento
+      
       const [ public_id ] = nombre.split('.');
       cloudinary.uploader.destroy(public_id);
     }

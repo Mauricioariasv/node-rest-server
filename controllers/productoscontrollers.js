@@ -1,5 +1,4 @@
 const { response } = require("express");
-const { sanitizeBody } = require("express-validator");
 
 const {Producto} = require('../models');
 const categoriasRoutes = {};
@@ -25,7 +24,6 @@ categoriasRoutes.obtenerProducto = async (req, res = response) => {
 
 categoriasRoutes.crearProducto = async (req,res = response) => {
     
-    //ignorar estado y usuario para que no los editen
     const {estado, usuario, ...body} = req.body;
     
     const productoDB = await Producto.findOne({nombre: body.nombre})

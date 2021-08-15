@@ -10,17 +10,15 @@ const coleccionesPermitidas = [
 ];
 
 const buscarUsuarios = async( termino, res  ) => {
-    //Ver si el termino es o no un MongoId, y si lo es, que busque el documento que tiene ese Id
     const esMongoID = ObjectId.isValid( termino )
     if(esMongoID){
         const usuario = await Usuario.findById(termino)
-        //Se coloca return para que no siga ejecutando nada de la función
         return res.json({
             results: (usuario) ? [ usuario ] : []
         })
     }
 
-    //es una expresión regular que lo que hace es que al bsquedas insensibles en la colección, busca
+    //es una expresión regular que lo que hace es que al busquedas insensibles en la colección, busca
     //lo que se pide y encuentra cosas similares, sin importar si tiene mayúsculas, minúsculas, etc
     const regex =  new RegExp(termino, 'i')
 

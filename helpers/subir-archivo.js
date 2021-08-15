@@ -3,7 +3,7 @@ const {v4: uuidv4} = require('uuid');
 
 
 // Usa una promesa porque acá no podemos usar res para dar respuesta
-//de esta forma maneja si todo sale bien o mal
+// de esta forma maneja si todo sale bien o mal
 
 const subirArchivo = (files, extensionesValidas = ['png','jpg', 'jpeg', 'gif'], carpeta = '') => {
     return new Promise((resolve, reject) => {
@@ -14,7 +14,6 @@ const subirArchivo = (files, extensionesValidas = ['png','jpg', 'jpeg', 'gif'], 
     const nombreCortado = archivo.name.split('.')
     const extension = nombreCortado[nombreCortado.length - 1]
 
-    //Validar la extensión
     if ( !extensionesValidas.includes(extension))  {
        return reject(`La extensión ${extension} no es válida`)
     }
@@ -25,7 +24,6 @@ const subirArchivo = (files, extensionesValidas = ['png','jpg', 'jpeg', 'gif'], 
     // Se cambió a nombreTemp porque usará el id único de uuidv4
     const uploadPath = path.join( __dirname, '../uploads/', carpeta, nombreTemp) ;
 
-    //ejecuta la función para guardar el archivo
     archivo.mv(uploadPath, function(err) {
       if (err) {
         reject(err)

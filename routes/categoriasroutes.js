@@ -8,8 +8,6 @@ const { validarJWT, esAdminRole } = require('../middlewares')
 
 const {validarCampos} = require('../middlewares/validate-camps')
 
-
-
 //Buscar categorías - público
 router.get('/',  obtenerCategorias)
 

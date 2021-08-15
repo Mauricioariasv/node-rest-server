@@ -22,14 +22,10 @@ users.usuariosGET = async(req,res = response) => {
 }
 users.usuariosPUT = async(req,res = response) => {
     const {id} = req.params;
-
-    // Resto almacena las demás propiedades que vienen en el req.body
     
     const {_id, password, google, email, ...resto} = req.body;
 
-    //TODO validar contra base de datos
     if(password) {
-        //Encriptar contraseña nueva
         const salt = bcryptjs.genSaltSync();
         resto.password = bcryptjs.hashSync(password, salt)
     }
@@ -42,8 +38,6 @@ users.usuariosPOST = async (req,res = response) => {
     const {name, google, email, password, rol} = req.body
     const usuario = new Usuario({name, google, email,password, rol})
 
-    
-    //Encriptar contraseña
     const salt = bcryptjs.genSaltSync();
     usuario.password = bcryptjs.hashSync(password, salt)
 
@@ -59,6 +53,9 @@ users.usuariosDELETE = async (req,res = response) => {
 
     const user = await Usuario.findByIdAndUpdate(id, {estado: false})
     
-    res.json({msg: 'delete API', user})
+    res.json({
+        msg: 'delete API', 
+        user
+    })
 }
 module.exports = users
